@@ -107,7 +107,7 @@ function refreshAllPins(editor) {
   }
 }
 
-function moveAttachedGroup(editor, movedShapeBefore, movedShapeAfter) {
+function moveAttachedGroup(editor, movedShapeBefore, movedShapeAfter, markSyncedShapeId) {
   const deltaX = movedShapeAfter.x - movedShapeBefore.x
   const deltaY = movedShapeAfter.y - movedShapeBefore.y
   if (deltaX === 0 && deltaY === 0) {
@@ -151,15 +151,18 @@ function moveAttachedGroup(editor, movedShapeBefore, movedShapeAfter) {
     }
 
     if (updates.length > 0) {
+      for (const update of updates) {
+        markSyncedShapeId(update.id)
+      }
       editor.updateShapes(updates)
     }
-
-    refreshPinAttachment(editor, pinShape.id)
   }
 }
 
 export function installPinAttachmentBehavior(editor) {
   let isApplying = false
+  let isDragging = false
+  const syncedShapeIds = new Set()
 
   const runSafely = (fn) => {
     if (isApplying) {
@@ -186,13 +189,25 @@ export function installPinAttachmentBehavior(editor) {
       },
       afterChange: (before, after) => {
         runSafely(() => {
+          if (syncedShapeIds.has(after.id)) {
+            syncedShapeIds.delete(after.id)
+            return
+          }
+
           if (after.type === PIN_SHAPE_TYPE) {
             refreshPinAttachment(editor, after.id)
             return
           }
 
-          moveAttachedGroup(editor, before, after)
-          refreshAllPins(editor)
+          moveAttachedGroup(editor, before, after, (shapeId) => {
+            syncedShapeIds.add(shapeId)
+          })
+
+          // Keep current attachments stable while dragging a non-pin shape.
+          // This makes attached shapes behave like one rigid element.
+          if (!editor.inputs.getIsDragging()) {
+            refreshAllPins(editor)
+          }
         })
       },
       afterDelete: () => {
@@ -207,5 +222,18 @@ export function installPinAttachmentBehavior(editor) {
     refreshAllPins(editor)
   })
 
-  return dispose
+  const disposeOperationComplete = editor.sideEffects.registerOperationCompleteHandler(() => {
+    runSafely(() => {
+      const draggingNow = editor.inputs.getIsDragging()
+      if (isDragging && !draggingNow) {
+        refreshAllPins(editor)
+      }
+      isDragging = draggingNow
+    })
+  })
+
+  return () => {
+    dispose()
+    disposeOperationComplete()
+  }
 }
