@@ -1,16 +1,59 @@
-# React + Vite
+# Frontend Coding Exercise
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React application with two main workspaces:
 
-Currently, two official plugins are available:
+- `PDF Workspace`: upload, preview, manage, and persist PDF files locally.
+- `Canvas Tools`: a `tldraw` canvas with custom tools (Pin + Camera Crop/Export) and persistent canvas state.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+- React 19
+- Vite 7
+- React Router DOM 7
+- tldraw 4
+- Browser Local Storage (PDF persistence)
+- tldraw `persistenceKey` storage (canvas persistence)
+- ESLint 9
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js 18+ (recommended: latest LTS)
+- npm (or compatible package manager)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Run the Application
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Start development server:
+
+```bash
+npm run dev
+```
+
+3. Open the app in your browser (Vite default):
+
+```text
+http://localhost:5173
+```
+
+## Available Scripts
+
+- `npm run dev`: start Vite dev server
+- `npm run build`: production build
+- `npm run preview`: preview production build locally
+- `npm run lint`: run ESLint
+
+## Routes
+
+- `/`: PDF Workspace (home page)
+- `/canvas`: tldraw canvas tools page
+- `/canva`: redirect to `/canvas`
+
+## Notes on Persistence
+
+- PDF documents are persisted in browser local storage.
+- Canvas drawings are persisted by tldraw using `persistenceKey`, so refresh keeps the design.
