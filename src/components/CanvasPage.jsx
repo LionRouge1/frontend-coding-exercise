@@ -25,9 +25,9 @@ const CANVAS_PERSISTENCE_KEY = 'doccanvas-canvas-v1'
 function CanvasToolbar() {
   return (
     <DefaultToolbar>
-      <DefaultToolbarContent />
       <ToolbarItem tool="pin" />
       <ToolbarItem tool="capture" />
+      <DefaultToolbarContent />
     </DefaultToolbar>
   )
 }
