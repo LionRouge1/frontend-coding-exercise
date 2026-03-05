@@ -294,11 +294,6 @@ export default function CanvasPage() {
       <header className="canvas-page__header">
         <div>
           <p className="canvas-page__eyebrow">Canvas</p>
-          {/* <h1>Pin + Capture Toolkit</h1>
-          <p className="canvas-page__subtitle">
-            Use the bottom toolbar pin and capture tools. Capture supports image crop and direct
-            video recording.
-          </p> */}
         </div>
         <div className="canvas-page__actions">
           <button type="button" onClick={openCapturePopup}>
@@ -315,11 +310,6 @@ export default function CanvasPage() {
           ) : null}
         </div>
       </header>
-
-      {/* <div className="canvas-page__hint">
-        Image mode: draw a crop area then release to auto-export. Video mode: records the current
-        canvas instantly.
-      </div> */}
 
       <div className="canvas-page__board">
         <Tldraw
