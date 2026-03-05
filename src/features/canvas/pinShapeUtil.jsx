@@ -27,7 +27,7 @@ export class PinShapeUtil extends BaseBoxShapeUtil {
     return true
   }
 
-  component(shape) {
+  component() {
     return (
       <HTMLContainer className="pin-shape">
         <div className="pin-shape__head" />
