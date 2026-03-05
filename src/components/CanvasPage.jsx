@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import {
   DefaultToolbar,
   DefaultToolbarContent,
@@ -109,7 +108,9 @@ export default function CanvasPage() {
   return (
     <div className="canvas-page">
       <div className="canvas-page__header">
-        <h1>Canvas</h1>
+        <div>
+          <p className="canvas-page__eyebrow">Canvas Studio</p>
+        </div>
         <div className="canvas-page__actions">
           <button
             type="button"
@@ -131,12 +132,7 @@ export default function CanvasPage() {
           <button type="button" onClick={() => editor?.setCurrentTool('select')} disabled={!editor}>
             Select Tool
           </button>
-          <Link to="/">Back to Home</Link>
         </div>
-      </div>
-
-      <div className="canvas-page__hint">
-        Use Camera Tool to draw a crop frame and export PNG. Pin keeps top 2 overlapping shapes attached.
       </div>
 
       <div className="canvas-page__board">

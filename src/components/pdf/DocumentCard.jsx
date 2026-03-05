@@ -46,6 +46,7 @@ export default function DocumentCard({
           Replace
         </button>
         <button
+          className="button--danger"
           type="button"
           onClick={(event) => {
             event.stopPropagation()

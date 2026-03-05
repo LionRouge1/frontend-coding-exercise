@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { usePdfManager } from '../hooks/usePdfManager'
 import DocumentsList from './pdf/DocumentsList'
 import MessageList from './pdf/MessageList'
@@ -55,11 +54,6 @@ export default function DisplayPdfPage() {
 
   return (
     <div className="pdf-page">
-      <div className="pdf-page__header">
-        <h1>Display PDF</h1>
-        <Link to="/">Back to Home</Link>
-      </div>
-
       <PdfDropzone
         isDragActive={isDragActive}
         onDragOver={(event) => {
