@@ -1,0 +1,109 @@
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import {
+  DefaultToolbar,
+  DefaultToolbarContent,
+  Tldraw,
+  ToolbarItem,
+} from 'tldraw'
+import 'tldraw/tldraw.css'
+import { installPinAttachmentBehavior } from '../features/canvas/pinAttachments'
+import { PinShapeTool } from '../features/canvas/pinShapeTool'
+import { PIN_SHAPE_TYPE, PinShapeUtil } from '../features/canvas/pinShapeUtil.jsx'
+import './CanvasPage.css'
+
+function CanvasToolbar() {
+  return (
+    <DefaultToolbar>
+      <DefaultToolbarContent />
+      <ToolbarItem tool={PIN_SHAPE_TYPE} />
+    </DefaultToolbar>
+  )
+}
+
+export default function CanvasPage() {
+  const [editor, setEditor] = useState(null)
+  const disposeAttachmentsRef = useRef(null)
+
+  const tools = useMemo(() => [PinShapeTool], [])
+  const shapeUtils = useMemo(() => [PinShapeUtil], [])
+  const uiOverrides = useMemo(
+    () => ({
+      tools: (editorInstance, toolsSchema) => {
+        return {
+          ...toolsSchema,
+          [PIN_SHAPE_TYPE]: {
+            id: PIN_SHAPE_TYPE,
+            label: 'tool.pin',
+            icon: <div className="pin-toolbar-icon" />,
+            kbd: 'p',
+            onSelect: () => {
+              editorInstance.setCurrentTool(PIN_SHAPE_TYPE)
+            },
+          },
+        }
+      },
+      translations: {
+        en: {
+          'tool.pin': 'Pin',
+        },
+      },
+    }),
+    [],
+  )
+  const uiComponents = useMemo(
+    () => ({
+      Toolbar: CanvasToolbar,
+    }),
+    [],
+  )
+
+  useEffect(() => {
+    return () => {
+      if (disposeAttachmentsRef.current) {
+        disposeAttachmentsRef.current()
+      }
+    }
+  }, [])
+
+  return (
+    <div className="canvas-page">
+      <div className="canvas-page__header">
+        <h1>Canvas</h1>
+        <div className="canvas-page__actions">
+          <button
+            type="button"
+            onClick={() => editor?.setCurrentTool(PIN_SHAPE_TYPE)}
+            disabled={!editor}
+          >
+            Pin Tool
+          </button>
+          <button type="button" onClick={() => editor?.setCurrentTool('select')} disabled={!editor}>
+            Select Tool
+          </button>
+          <Link to="/">Back to Home</Link>
+        </div>
+      </div>
+
+      <div className="canvas-page__hint">
+        Add a pin on top of overlapping shapes. Top 2 overlapped non-pin shapes become attached.
+      </div>
+
+      <div className="canvas-page__board">
+        <Tldraw
+          tools={tools}
+          shapeUtils={shapeUtils}
+          overrides={uiOverrides}
+          components={uiComponents}
+          onMount={(mountedEditor) => {
+            setEditor(mountedEditor)
+            if (disposeAttachmentsRef.current) {
+              disposeAttachmentsRef.current()
+            }
+            disposeAttachmentsRef.current = installPinAttachmentBehavior(mountedEditor)
+          }}
+        />
+      </div>
+    </div>
+  )
+}
