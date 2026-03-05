@@ -27,6 +27,7 @@ function CanvasToolbar() {
 export default function CanvasPage() {
   const [editor, setEditor] = useState(null)
   const disposeAttachmentsRef = useRef(null)
+  const persistenceKey = 'doccanvas-canvas-v1'
 
   const tools = useMemo(() => [PinShapeTool, CameraShapeTool], [])
   const shapeUtils = useMemo(() => [PinShapeUtil, CameraShapeUtil], [])
@@ -137,6 +138,7 @@ export default function CanvasPage() {
 
       <div className="canvas-page__board">
         <Tldraw
+          persistenceKey={persistenceKey}
           tools={tools}
           shapeUtils={shapeUtils}
           overrides={uiOverrides}
