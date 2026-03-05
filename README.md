@@ -3,7 +3,28 @@
 A React application with two main workspaces:
 
 - `PDF Workspace`: upload, preview, manage, and persist PDF files locally.
-- `Canvas Tools`: a `tldraw` canvas with custom tools (Pin + Camera Crop/Export) and persistent canvas state.
+- `Canvas Tools`: a `tldraw` canvas with custom tools (Pin + Capture) and persistent canvas state.
+
+## Main Features
+
+### PDF Workspace (Document Management System)
+
+- Upload multiple PDF documents (drag and drop or file picker).
+- Validate unsupported files and oversized files.
+- Preview documents directly in-app.
+- Manage documents with:
+  - rename
+  - replace
+  - remove
+- Persist document list in browser local storage so files remain after refresh.
+
+### Canvas Tools
+
+- Custom `Pin` tool to attach overlapping shapes and move attached groups together.
+- `Capture` popup tool with two modes:
+  - `Image`: draw crop area and auto-export PNG when drawing ends.
+  - `Video`: record the current canvas directly and export a playable WebM file.
+- Canvas state persistence via tldraw `persistenceKey` (refresh-safe).
 
 ## Tech Stack
 
