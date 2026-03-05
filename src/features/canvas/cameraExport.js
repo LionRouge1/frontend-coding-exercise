@@ -45,5 +45,6 @@ export async function exportCameraCrop(editor, cameraShapeId) {
   })
 
   downloadBlob(blob, `canvas-crop-${Date.now()}.png`)
+  editor.deleteShapes([cameraShapeId])
   return true
 }

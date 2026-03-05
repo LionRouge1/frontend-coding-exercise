@@ -142,6 +142,8 @@
   border-radius: 6px;
   font-size: 0.78rem;
   padding: 0.28rem 0.55rem;
+  pointer-events: all;
+  z-index: 2;
 }
 
 .camera-toolbar-icon {

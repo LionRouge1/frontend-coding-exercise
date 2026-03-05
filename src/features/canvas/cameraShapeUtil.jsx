@@ -20,7 +20,7 @@ export class CameraShapeUtil extends BaseBoxShapeUtil {
 
   component(shape) {
     return (
-      <HTMLContainer className="camera-shape">
+      <HTMLContainer className="camera-shape" style={{ pointerEvents: 'all' }}>
         <div className="camera-shape__frame" />
         <button
           className="camera-shape__export"
