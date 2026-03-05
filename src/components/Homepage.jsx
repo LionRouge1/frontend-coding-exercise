@@ -7,6 +7,9 @@ export default function HomePage() {
       <p>
         Go to the <Link to="/display-pdf">Display PDF</Link> route.
       </p>
+      <p>
+        Go to the <Link to="/canvas">Canvas</Link> route.
+      </p>
     </div>
   )
 }
